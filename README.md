@@ -1,11 +1,11 @@
-#.net core take home assignment 
+# .net core take home assignment 
 
-###How to perform the assignment:
+### How to perform the assignment:
 
 - Fork this repository
 - Create a branch for each task starting with the number of the task
 
-###Tasks: 
+### Tasks: 
 
 1) Implement the missing methods for the UserRepository
 2) Use the repository in the UserController in order to perform CRUD operations described
@@ -13,5 +13,5 @@
 4) Create a Logger and use the logger in at least one UserController Action
 
 
-###Bonus:
+### Bonus:
 - Unit test the UserRepository
