@@ -11,11 +11,13 @@ namespace Work.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
+        private readonly ILogger<UserController> _logger;
         private readonly IRepository<User, Guid> _userRepository;
         private const string UserNotExistMessage = "User does not exist";
 
-        public UserController(IRepository<User, Guid> userRepository)
+        public UserController(ILogger<UserController> logger, IRepository<User, Guid> userRepository)
         {
+            _logger = logger;
             _userRepository = userRepository;
         }
 
@@ -24,9 +26,13 @@ namespace Work.Controllers
         [SwaggerResponse((int)HttpStatusCode.NotFound)]
         public IActionResult Get(Guid id)
         {
+            _logger.LogInformation("Received get request for {id}", id);
+
             try
             {
                 var user = _userRepository.Read(id);
+
+                _logger.LogDebug("Returning user {@user}", user);
                 return Ok(user);
             }
             catch

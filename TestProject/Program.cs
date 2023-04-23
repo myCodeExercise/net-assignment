@@ -1,6 +1,7 @@
 using Work.Database;
 using Work.Implementation;
 using Work.Interfaces;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton(_ => new MockDatabase(10));
 builder.Services.AddSingleton<IRepository<User, Guid>, UserRepository>();
+
+builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
 var app = builder.Build();
 
