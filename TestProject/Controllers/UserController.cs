@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Net;
 using Work.ApiModels;
 using Work.Database;
 using Work.Interfaces;
@@ -6,6 +8,7 @@ using Work.Interfaces;
 namespace Work.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IRepository<User, Guid> _userRepository;
@@ -16,6 +19,9 @@ namespace Work.Controllers
             _userRepository = userRepository;
         }
 
+        [HttpGet]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(UserModelDto))]
+        [SwaggerResponse((int)HttpStatusCode.NotFound)]
         public IActionResult Get(Guid id)
         {
             try
@@ -29,6 +35,9 @@ namespace Work.Controllers
             }
         }
 
+        [HttpPost]
+        [SwaggerResponse((int)HttpStatusCode.Accepted)]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest)]
         public IActionResult Post(UserModelDto user)
         {
             try
@@ -42,6 +51,9 @@ namespace Work.Controllers
             }
         }
 
+        [HttpPut]
+        [SwaggerResponse((int)HttpStatusCode.Accepted)]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest)]
         public IActionResult Put(UserModelDto user)
         {
             try
@@ -51,10 +63,13 @@ namespace Work.Controllers
             }
             catch
             {
-                return BadRequest(UserNotExistMessage);
+                return BadRequest("User already exists");
             }
         }
 
+        [HttpDelete]
+        [SwaggerResponse((int)HttpStatusCode.OK)]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest)]
         public IActionResult Delete(Guid id)
         {
             try
